@@ -29,6 +29,7 @@ export class EffectsModule {
         providers: [EffectsSubscription]
       }
     }
+    EffectsModule.effectsMap.set(type, true);
     return {
       ngModule: EffectsModule,
       providers: [
