@@ -24,7 +24,10 @@ export class EffectsModule {
       EffectsModule.effectsMap = new Map<any, any>();
     }
     if (EffectsModule.effectsMap.has(type)) {
-      return {}
+      return {
+        ngModule: EffectsModule,
+        providers: [EffectsSubscription]
+      }
     }
     return {
       ngModule: EffectsModule,
