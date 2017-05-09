@@ -23,7 +23,7 @@ export class EffectsModule {
       providers: [
         EffectsSubscription,
         type,
-        { provide: effects, useExisting: type, multi: true }
+        { provide: effects, useExisting: type, multi: false }
       ]
     };
   }
@@ -33,7 +33,7 @@ export class EffectsModule {
       ngModule: EffectsModule,
       providers: [
         type,
-        { provide: afterBootstrapEffects, useExisting: type, multi: true }
+        { provide: afterBootstrapEffects, useExisting: type, multi: false }
       ]
     };
   }
