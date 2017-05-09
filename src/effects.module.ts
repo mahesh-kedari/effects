@@ -11,19 +11,27 @@ import { runAfterBootstrapEffects, afterBootstrapEffects } from './bootstrap-lis
     {
       provide: APP_BOOTSTRAP_LISTENER,
       multi: true,
-      deps: [ Injector, EffectsSubscription ],
+      deps: [Injector, EffectsSubscription],
       useFactory: runAfterBootstrapEffects
     }
   ]
 })
 export class EffectsModule {
+  static effectsMap = new Map<any, any>();
+
   static run(type: Type<any>) {
+    if (!EffectsModule.effectsMap) {
+      EffectsModule.effectsMap = new Map<any, any>();
+    }
+    if (EffectsModule.effectsMap.has(type)) {
+      return {}
+    }
     return {
       ngModule: EffectsModule,
       providers: [
         EffectsSubscription,
         type,
-        { provide: effects, useExisting: type, multi: false }
+        { provide: effects, useExisting: type, multi: true }
       ]
     };
   }
@@ -33,10 +41,10 @@ export class EffectsModule {
       ngModule: EffectsModule,
       providers: [
         type,
-        { provide: afterBootstrapEffects, useExisting: type, multi: false }
+        { provide: afterBootstrapEffects, useExisting: type, multi: true }
       ]
     };
   }
 
-  constructor(private effectsSubscription: EffectsSubscription) {}
+  constructor(private effectsSubscription: EffectsSubscription) { }
 }
